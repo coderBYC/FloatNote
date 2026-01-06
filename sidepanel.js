@@ -142,8 +142,18 @@ function renderNotes() {
     item.addEventListener('click', async (e) => {
       e.preventDefault();
       const url = item.getAttribute('data-url') || item.closest('.note-item')?.getAttribute('data-note-url');
-      if (url) {
-        await chrome.tabs.create({ url, active: true });
+      const noteId = item.getAttribute('data-note-id') || item.closest('.note-item')?.getAttribute('data-note-id');
+      if (url && noteId) {
+        const note = allNotes.find(n => n.id === noteId)
+        const tab = await chrome.tabs.create({ url, active: true });
+        if (note && note.position){
+          setTimeout(()=>{
+            chrome.tabs.sendMessage(tab.id, {
+              action: 'scrollToNote',
+              position: note.position
+            })
+          }, 1500)
+        }
       }
     });
   });

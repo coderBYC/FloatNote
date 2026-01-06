@@ -48,6 +48,15 @@ if (document.readyState === 'loading') {
   loadNotesForCurrentPage();
 }
 
+chrome.runtime.onMessage.addListener(message =>{
+  if (message.action === 'scrollToNote' && message.position){
+    window.scrollTo({
+      left: message.position.left - 50,
+      top: message.position.top - 50, 
+      behavior: 'smooth'
+    })
+  }
+})
 async function loadNotesForCurrentPage() {
   try {
     console.log('Loading notes for current page');
@@ -80,6 +89,11 @@ async function createNote(){
   const noteId = 'note-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
   noteDiv.dataset.noteId = noteId;  
   noteDiv._viewStatus = false;
+  noteDiv.style.position = 'absolute';
+  const docCenterX = window.scrollX + (document.documentElement.clientWidth / 2) - (noteDiv.offsetWidth / 2);
+  const docCenterY = window.scrollY + (document.documentElement.clientHeight / 2) - (noteDiv.offsetHeight / 2);
+  noteDiv.style.left = docCenterX + 'px';
+  noteDiv.style.top = docCenterY + 'px';
   document.body.appendChild(noteDiv);
   saveNoteToDB(noteDiv)
   setupTextEditorButtons(noteDiv);
@@ -152,7 +166,7 @@ async function restoreNote(noteData) {
   
   // Restore position and size
   if (noteData.position) {
-  noteDiv.style.position = 'fixed';
+  noteDiv.style.position = 'absolute';
     noteDiv.style.left = noteData.position.left + 'px';
     noteDiv.style.top = noteData.position.top + 'px';
     noteDiv.style.width = noteData.position.width + 'px';
@@ -285,7 +299,7 @@ function restoreViewMode(noteDiv, noteData) {
   }
   
   // Position and style the cloned element using calculated values
-  clonedTextInput.style.position = 'fixed';
+  clonedTextInput.style.position = 'absolute';
   clonedTextInput.style.left = clonedLeft + 'px';
   clonedTextInput.style.top = clonedTop + 'px';
   clonedTextInput.style.width = clonedWidth + 'px';
@@ -598,8 +612,8 @@ async function saveNoteToDB(Element) {
     timestamp: new Date().toISOString(),
     viewMode: viewMode,
     position: {
-      left: rect.left,
-      top: rect.top,
+      left: rect.left + window.scrollX,
+      top: rect.top + window.scrollY,
       width: rect.width,
       height: rect.height
     },
@@ -642,21 +656,19 @@ function switchToViewMode(noteDiv) {
   noteDiv._headerOptionsHeight = headerHeight + optionsHeight;
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      const rect = textInput.getBoundingClientRect();
       const computedStyle = window.getComputedStyle(textInput);
-      
-      // Clone the text input
+      const rect = textInput.getBoundingClientRect();
       const clonedTextInput = textInput.cloneNode(true);
       clonedTextInput.contentEditable = false;
       clonedTextInput.classList.add('floatnote-view-text');
       clonedTextInput.dataset.noteId = noteDiv.dataset.noteId;
   
-      clonedTextInput.style.position = 'fixed';
-      clonedTextInput.style.left = rect.left + 'px';
-      clonedTextInput.style.top = rect.top + 'px';
+      clonedTextInput.style.position = 'absolute';
+      clonedTextInput.style.left = window.scrollX + rect.left +'px';
+      clonedTextInput.style.top = window.scrollY + rect.top +'px';
+      console.log(window.scrollY)
       clonedTextInput.style.width = rect.width + 'px';
       clonedTextInput.style.height = rect.height + 'px';
-      clonedTextInput.style.maxHeight = rect.height + 'px';
       clonedTextInput.style.minWidth = '0';
       clonedTextInput.style.minHeight = '0';
       clonedTextInput.style.zIndex = '10000';
@@ -672,7 +684,6 @@ function switchToViewMode(noteDiv) {
       clonedTextInput.style.fontSize = computedStyle.fontSize;
       clonedTextInput.style.lineHeight = computedStyle.lineHeight;
       clonedTextInput.style.color = computedStyle.color || '#000000';
-      clonedTextInput.style.overflow = 'hidden';
       clonedTextInput.style.overflowY = 'scroll';
       clonedTextInput.style.overflowX = 'hidden';
       clonedTextInput.style.boxSizing = 'border-box';
@@ -698,15 +709,7 @@ function switchToViewMode(noteDiv) {
       };
       
       // Append cloned element to body AFTER positioning to prevent layout shift
-      document.body.appendChild(clonedTextInput);
-      
-      // Verify position is correct after append (should be the same)
-      const verifyRect = clonedTextInput.getBoundingClientRect();
-      if (Math.abs(verifyRect.left - rect.left) > 1 || Math.abs(verifyRect.top - rect.top) > 1) {
-        // If position shifted, correct it
-        clonedTextInput.style.left = rect.left + 'px';
-        clonedTextInput.style.top = rect.top + 'px';
-      }  
+      document.body.appendChild(clonedTextInput);  
       
       // Make cloned element draggable and resizable
       makeNoteDraggable(clonedTextInput);
@@ -756,7 +759,7 @@ async function switchToEditMode(clonedTextInput) {
   const noteDivHeight = rect.height + 10 + headerOptionsHeight;
 
   // Apply position and size to noteDiv
-  noteDiv.style.position = 'fixed';
+  noteDiv.style.position = 'absolute';
   noteDiv.style.left = noteDivLeft + 'px';
   noteDiv.style.top = noteDivTop + 'px';
   noteDiv.style.width = noteDivWidth + 'px';
@@ -846,8 +849,8 @@ function makeNoteDraggable(Element) {
     noteIsDragging = false; // Make sure we start with dragging false
     
     const rect = Element.getBoundingClientRect();
-    noteStartLeft = rect.left;
-    noteStartTop = rect.top;
+    noteStartLeft = rect.left + window.scrollX;
+    noteStartTop = rect.top + window.scrollY;
     if (Element.style.transform && Element.style.transform !== 'none') {
     Element.style.transform = 'none';
     }
@@ -912,8 +915,8 @@ function makeNoteDraggable(Element) {
       // Dragging noteDiv in edit mode - update stored dimensions
       const currentRect = Element.getBoundingClientRect();
       Element._storedDimensions = {
-        left: currentRect.left,
-        top: currentRect.top,
+        left: currentRect.left + window.scrollX,
+        top: currentRect.top + window.scrollY ,
         width: currentRect.width,
         height: currentRect.height
       };
@@ -947,8 +950,8 @@ function makeNoteResizable(Element) {
     const rect = Element.getBoundingClientRect();
     noteStartWidth = rect.width;
     noteStartHeight = rect.height;
-    noteStartLeft = rect.left;
-    noteStartTop = rect.top;
+    noteStartLeft = rect.left + window.scrollX;
+    noteStartTop = rect.top + window.scrollY;
     noteStartX = e.clientX;
     noteStartY = e.clientY;
     

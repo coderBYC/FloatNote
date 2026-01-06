@@ -86,7 +86,6 @@ async function getAllNotesFromDB() {
 
 async function getNotesByUrlFromDB(url) {
   const database = await initDB();
-  console.log('Getting notes for URL from DB:', url);
   return new Promise((resolve, reject) => {
     const transaction = database.transaction([STORE_NAME], 'readonly');
     const store = transaction.objectStore(STORE_NAME);
@@ -96,7 +95,6 @@ async function getNotesByUrlFromDB(url) {
     
     request.onsuccess = () => {
       result = request.result || [];
-      console.log('Fetched notes for URL from DB:', url, result);
       // Filter to ensure exact URL match (IndexedDB index.getAll might return partial matches)
       result = result.filter(note => {
         const noteUrl = note.url;

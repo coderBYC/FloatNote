@@ -8,10 +8,7 @@
   min-width: 200px;
   max-width: 80vw;
   padding: 4px 2px 4px 4px;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  position: absolute !important;
   border-radius: 8px;
   box-shadow: 0 5px 10px rgba(7, 20, 35, 0.2);
   display: flex;
