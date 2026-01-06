@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "FloatNote",
+  "version": "1.0.0",
+  "description": "Highlight text, attach floating notes, and manage them in a side panel dashboard",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "sidePanel",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png"
+    }
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["highlighter.js", "textEditor.js", "note.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ], 
+  "icons": {
+    "16": "icons/icon16.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/icon16.png", "note.html", "note.css", "fontawesome/css/all.min.css", "fontawesome/webfonts/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
+

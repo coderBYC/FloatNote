@@ -1,0 +1,32 @@
+/* CSS Highlight API - Primary method (works across different element types) */
+/* Matches highlights registered with CSS.highlights.set('floatnote-highlight-*', highlight) */
+::highlight(floatnote-highlight) {
+  background-color: hsl(46, 100%, 51%);
+  color: inherit;
+  padding: 2px 0;
+}
+
+/* Note: CSS Highlight API uses attribute selectors, so we need to match the pattern */
+/* For dynamic highlight names, we can use a more general approach */
+
+/* Fallback: Using <span> element for browsers without CSS Highlight API support */
+span.floatnote-highlight,
+.floatnote-highlight {
+  display: inline !important;
+  white-space: normal !important;
+  line-height: inherit !important;
+  vertical-align: baseline !important; /* Ensure proper alignment */
+  background-color: hsl(46, 100%, 51%) !important;
+  padding: 2px 0 !important;
+  cursor: default !important;
+  transition: background-color 0.2s;
+  color: inherit !important; /* Preserve text color */
+  font-weight: inherit !important; /* Preserve font weight */
+}
+
+span.floatnote-highlight:hover,
+.floatnote-highlight:hover {
+  background-color: hsla(46, 100%, 51%, 0.709) !important;
+}
+
+

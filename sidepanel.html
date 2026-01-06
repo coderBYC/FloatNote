@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FloatNote Dashboard</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <div class="header">
+      <img src="icons/icon16.png" alt="FloatNote" style="width: 40px; height: 40px; ">
+      <h1> FloatNote Dashboard</h1>
+      <div class="filters"> 
+        <select id="filterType">
+          <option value="all">All Types</option>
+          <option value="highlight">Highlights</option>
+          <option value="note">Notes</option>
+        </select>
+        <select id="filterUrl">
+          <option value="all">All Pages</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-label">Total Notes</span>
+        <span class="stat-value" id="totalCount">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Highlights</span>
+        <span class="stat-value" id="highlightCount">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Notes</span>
+        <span class="stat-value" id="noteCount">0</span>
+      </div>
+    </div>
+    
+    <div class="notes-list" id="notesList">
+      <div class="empty-state">
+        <p>No notes yet. Start highlighting and adding notes!</p>
+      </div>
+    </div>
+  </div>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
+

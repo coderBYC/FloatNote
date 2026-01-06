@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FloatNote</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="header">
+      <img src="icons/icon16.png" alt="FloatNote" style="width: 40px; height: 40px; ">
+      <h2>FloatNote</h2>
+    </div>
+
+    <div id="mainSection" class="section">
+      <div class="mode-selector">
+        <button id="highlightBtn" class="mode-btn">
+          <span class="icon">✏️</span>
+          <span style="font-weight: bold;">Highlight</span>
+          <span style="color:dimgray; font-size:12px;">Ctrl + H</span>
+        </button>
+        <button id="noteBtn" class="mode-btn">
+          <span class="icon">📝</span>
+          <span style="font-weight: bold;">Note</span>
+          <span style="color:dimgray; font-size:12px;">Ctrl + N</span>
+        </button>
+        <button id="dashboardBtn" class="mode-btn">
+          <span class="icon">📊</span>
+          <span style="font-weight: bold;">Dashboard</span>
+          <span style="color:dimgray; font-size:12px;">Ctrl + D</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,363 @@
+/* ============================================
+   1. Main Container
+   ============================================ */
+.floatnote-note {
+  background-color: #ffffff !important;
+  width: 300px;
+  height: 300px;
+  min-width: 200px;
+  max-width: 80vw;
+  padding: 4px 2px 4px 4px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(7, 20, 35, 0.2);
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  overflow: hidden; /* Container is not scrollable */
+  color: #000000 !important;
+  z-index: 10000;
+  border-color: #000000;
+  border-width: 2px;
+  border-style: solid;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.floatnote-note * {
+  box-sizing: border-box;
+}
+
+/* ============================================
+   2. Header & Control Buttons
+   ============================================ */
+.floatnote-note .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 6px 6px 6px;
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+  cursor: move;
+  min-height: 32px;
+  gap: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.floatnote-note .close-button,
+.floatnote-note .save-button {
+  box-shadow: 2px 2px 0 #000;
+  border: 2px solid #000 !important;
+  transition: all ease-in 0.2s !important;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  cursor: pointer;
+  padding: 1px 2px;
+  font-size: 16px;
+  color: #000000 !important;
+  flex-shrink: 0;
+  white-space: nowrap;
+  min-width: 32px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  margin: 0;
+  position: relative;
+}
+
+.floatnote-note .close-button:hover {
+  background-color: #ffebee;
+  border-color: #f44336 !important;
+  box-shadow: none;
+  transform: translateY(2px) !important;
+  transition: all ease-in 0.2s;
+  opacity: 1 !important;
+}
+
+.floatnote-note .save-button:hover {
+  background-color: #e8f5e9;
+  border-color: #4caf50 !important;
+  box-shadow: none;
+  transform: translateY(2px) !important;
+  transition: all ease-in 0.2s;
+  opacity: 1 !important;
+}
+
+/* ============================================
+   3. Toolbar (Options)
+   ============================================ */
+.floatnote-note .options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 4px 4px 4px;
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+}
+
+/* ============================================
+   4. Toolbar Controls
+   ============================================ */
+
+/* Buttons */
+.floatnote-note button {
+  box-shadow: 2px 2px 0 #000;
+  border: 2px solid #000 !important;
+  transition: all ease-in 0.2s !important;
+  height: 20px;
+  width: 20px;
+  min-width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  background-color: #ffffff;
+  outline: none;
+  color: #020929 !important;
+  cursor: pointer;
+  padding: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 12px !important;
+  margin: 0;
+  position: relative;
+}
+
+.floatnote-note button:hover {
+  box-shadow: none;
+  transform: translateY(2px) !important;
+  transition: all ease-in 0.2s;
+  opacity: 1 !important;
+
+}
+
+.floatnote-note .active {
+  background-color: #e0e9ff;
+  border-color: #338cf4;
+}
+
+/* FontAwesome Icons */
+.floatnote-note button i,
+.floatnote-note button .fa-solid,
+.floatnote-note button .fa,
+.floatnote-note button [class*="fa-"] {
+  font-family: "Font Awesome 7 Free", "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 6 Brands", "FontAwesome", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  font-size: 11px !important;
+  color: #020929 !important;
+  display: inline-block !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Selects */
+.floatnote-note select {
+  box-shadow: 2px 2px 0 #000;
+  border: 2px solid #000 !important;
+  transition: all ease-in 0.2s !important;
+  border-radius: 3px;
+  padding: 0 4px;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-size: 12px !important;
+  cursor: pointer;
+  height: 20px;
+  width: 80px;
+  max-width: 80px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: none !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.floatnote-note select .formatBlock {
+  width: 40px;
+}
+
+.floatnote-note select option {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-size: 12px !important;
+}
+.floatnote-note select:hover {
+  box-shadow: none;
+  transform: translateY(2px) !important;
+  transition: all ease-in 0.2s;
+  opacity: 1 !important;
+}
+.floatnote-note #formatBlock {
+  width: 60px;
+}
+
+/* Font Size Control */
+.floatnote-note .font-size-control {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.floatnote-note .font-size-control button {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  font-size: 10px;
+  padding: 0;
+}
+
+.floatnote-note .font-size-display {
+  min-width: 24px;
+  text-align: center;
+  font-size: 10px;
+  color: #000000 !important;
+}
+
+/* Labels */
+.floatnote-note .options label {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 10px;
+  color: #000000 !important;
+  margin: 0 !important;
+  padding: 0;
+  line-height: 1;
+  display: inline-block;
+  font-weight: bold;
+}
+
+/* Input Wrapper */
+.floatnote-note .input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Color Inputs */
+.floatnote-note input[type="color"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 2px 2px 0 #000;
+  border: 2px solid #000 !important;
+  transition: all ease-in 0.2s !important;
+}
+
+.floatnote-note input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border: none;
+  border-radius: 3px;
+}
+
+.floatnote-note input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 3px;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.floatnote-note input[type="color"]::-moz-color-swatch {
+  border: none;
+  border-radius: 3px;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.floatnote-note input[type="color"]:hover {
+  box-shadow: none;
+  transform: translateY(2px) !important;
+  transition: all ease-in 0.2s;
+  opacity: 1 !important;
+}
+
+/* ============================================
+   5. Text Input Area
+   ============================================ */
+.floatnote-note #text-input {
+  margin-top: 10px;
+  border: 2px solid #000;
+  padding: 12px 6px;
+  min-height: 0;
+  height: 100%; /* Take full height of container, fits completely */
+  overflow-x: hidden; 
+  overflow-y: auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  flex: 1 1 0; /* Flex grow, shrink, and basis 0 to fit container */
+  outline: none;
+  word-wrap: break-word;
+  word-spacing: normal;
+  white-space: pre-wrap;
+  color: #000000 !important;
+  position: relative;
+  background-color: #ffbf00;
+}
+
+.floatnote-note #text-input:focus {
+  border-color: #338cf4;
+  box-shadow: 0 0 0 2px rgba(51, 140, 244, 0.1);
+}
+
+/* ============================================
+   6. Resizer
+   ============================================ */
+.floatnote-note .resizer,
+.floatnote-view-text .resizer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  cursor: nwse-resize;
+  background-color: #ffffff;
+  border-radius: 50%;
+  border: 1px solid #e0e0e0;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+/* Cloned text input in view mode */
+.floatnote-view-text {
+  overflow: hidden !important; /* Hide overflow, no scrollbar - content is clipped */
+  overflow-y: auto !important; /* Explicitly hide vertical overflow */
+  overflow-x: hidden !important; /* Explicitly hide horizontal overflow */
+  max-height: 100% !important; /* Constrain height to prevent overflow */
+  box-sizing: border-box !important; /* Include padding and border in height calculation */
+  cursor: move !important; /* Show move cursor for dragging */
+  min-width: 200px !important;
+}
+
+/* Ensure all children of cloned text input also respect overflow */
+.floatnote-view-text * {
+  max-height: 100% !important;
+  overflow: hidden !important;
+  position: relative;
+}
+

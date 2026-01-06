@@ -1,0 +1,247 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: white;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+.dashboard-container {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  background: white;
+  overflow-x: hidden;
+}
+
+.header {
+  padding: 16px;
+  background: white;
+  color: black;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.filters select {
+  flex: 1;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  background: white;
+  color: #000;
+  font-size: 13px;
+  cursor: pointer;
+  max-width: 100%;
+}
+
+.stats {
+  display: flex;
+  padding: 16px;
+  gap: 16px;
+  background: white;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.stat-item {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  padding: 12px;
+  background: white;
+  border: 1px solid #000;
+  border-radius: 8px;
+  box-shadow: 2px 2px 0 #000;
+  border: 2px solid #000 !important;
+  transition: all ease-in 0.2s !important;
+}
+
+.stat-item:hover {
+  box-shadow: none;
+  transform: translateY(2px) !important;
+  transition: all ease-in 0.2s;
+  opacity: 1 !important;
+}
+
+.stat-label {
+  display: block;
+  font-size: 12px;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+}
+/* Color Customization */
+.color-customization {
+  padding: 16px;
+  background: white;
+}
+
+.color-customization h3 {
+  font-size: 14px;
+  color: #000;
+  margin-bottom: 12px;
+}
+
+.color-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.color-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.color-control label {
+  font-size: 12px;
+  color: #000;
+  min-width: 120px;
+}
+
+.color-control input[type="color"] {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.notes-list {
+  padding: 16px;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #000;
+}
+
+.note-item {
+  background: white;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  max-width: 100%;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  box-shadow: 2px 2px 0 #000;
+  border: 2px solid #000 !important;
+  transition: all ease-in 0.2s !important;
+}
+
+.note-item:hover {
+  box-shadow: none;
+  transform: translateY(2px) !important;
+  transition: all ease-in 0.2s;
+  opacity: 1 !important;
+  background-color: #e6e3e3;
+}
+
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.note-type {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.note-type.highlight {
+  background: #FFF9C4;
+  color: #F57F17;
+}
+
+.note-type.note {
+  background: #E3F2FD;
+  color: #1976D2;
+}
+
+.note-timestamp {
+  font-size: 11px;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 8px;
+}
+
+.note-text {
+  font-size: 13px;
+  color: #000;
+  margin-bottom: 6px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.note-url {
+  font-size: 11px;
+  color: #000;
+  text-decoration: underline;
+  display: block;
+  margin-top: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.note-url:hover {
+  text-decoration: none;
+}
+
+.note-content {
+  font-size: 12px;
+  color: #000;
+  margin-top: 6px;
+  padding: 6px;
+  background: white;
+  border: 1px solid #000;
+  border-radius: 4px;
+  font-style: italic;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
