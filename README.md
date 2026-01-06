@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # FloatNote Chrome Extension
 
 A Chrome extension that lets you highlight text on any webpage, attach floating notes, and manage everything in a side-panel dashboard.
@@ -93,3 +94,7 @@ FloatNote/
 - Search functionality
 - Screenshot attachments
 
+=======
+# FloatNote
+Chrome extension allows users to add personal notes and text highlights directly on webpages they visit. The notes and highlights are saved locally and automatically restored when the user revisits the same page, helping users remember important information and context while browsing.
+>>>>>>> 43032546864083888390ef692be5c6bbe8355497
