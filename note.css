@@ -17,10 +17,8 @@
   overflow: hidden; /* Container is not scrollable */
   color: #000000 !important;
   z-index: 10000;
-  border-color: #000000;
-  border-width: 2px;
-  border-style: solid;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 0 #000;
+  border: 2px solid #000 !important;
 }
 
 .floatnote-note * {

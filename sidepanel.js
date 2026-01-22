@@ -4,7 +4,7 @@ let filteredNotes = [];
 
 // Set up message listener immediately (before DOMContentLoaded)
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === 'noteAdded' || message.action === 'noteDeleted') {
+  if (message.action === 'noteAdded' || message.action === 'noteDeleted' || message.action === 'highlightAdded' || message.action === 'highlightDeleted') {
     loadNotes();
   }
 });
@@ -55,11 +55,26 @@ async function loadNotes() {
   try {
     // Get all notes from background script
     const response = await chrome.runtime.sendMessage({ action: 'getAllNotes' });
+    let notes = [];
     if (response && response.notes) {
-      allNotes = response.notes;
-    } else {
-      allNotes = [];
+      notes = response.notes;
     }
+    // Get all highlights from chrome.storage.local
+    const { highlights = [] } = await chrome.storage.local.get('highlights');
+    
+    // Convert highlights to the same format as notes for display
+    const highlightNotes = highlights.map(highlight => ({
+      id: highlight.id,
+      type: 'highlight',
+      url: highlight.url,
+      text: highlight.text || '',
+      timestamp: highlight.timestamp || new Date().toISOString(),
+      position: highlight.position, // Include position for scrolling
+      highlightData: highlight // Keep original data for reference
+    }));
+    
+    // Merge notes and highlights
+    allNotes = [...notes, ...highlightNotes];
     allNotes.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
     updateStats();
     updateUrlFilter();
@@ -125,35 +140,67 @@ function renderNotes() {
     const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const urlDisplay = note.url ? (new URL(note.url).hostname + new URL(note.url).pathname) : 'Unknown URL';
     
+    // Truncate long text for display
+    const displayText = note.text ? (note.text.length > 200 ? note.text.substring(0, 200) + '...' : note.text) : '';
+    
     return `
-      <div class="note-item" data-note-id="${note.id}" data-note-url="${note.url || ''}">
+      <div class="note-item" data-note-id="${note.id}" data-note-url="${note.url || ''}" data-note-type="${note.type || 'note'}">
         <div class="note-header">
           <span class="note-type ${note.type || 'note'}">${note.type || 'note'}</span>
           <span class="note-timestamp">${formattedDate}</span>
         </div>
-        ${note.text ? `<div class="note-content">${note.text}</div>` : ''}
+        ${displayText ? `<div class="note-content">${displayText}</div>` : ''}
         <a href="#" class="note-url" data-url="${note.url || ''}">${urlDisplay}</a>
       </div>
     `;
   }).join('');
   
-  // Add click handlers - just open the URL, notes will load automatically
+  // Add click handlers - open the URL, notes/highlights will load automatically
   document.querySelectorAll('.note-item, .note-url').forEach(item => {
     item.addEventListener('click', async (e) => {
       e.preventDefault();
       const url = item.getAttribute('data-url') || item.closest('.note-item')?.getAttribute('data-note-url');
       const noteId = item.getAttribute('data-note-id') || item.closest('.note-item')?.getAttribute('data-note-id');
+      const noteType = item.getAttribute('data-note-type') || item.closest('.note-item')?.getAttribute('data-note-type');
+      
       if (url && noteId) {
-        const note = allNotes.find(n => n.id === noteId)
+        const note = allNotes.find(n => n.id === noteId);
         const tab = await chrome.tabs.create({ url, active: true });
-        if (note && note.position){
-          setTimeout(()=>{
+        
+        // For notes with position, scroll to them
+        if (note && note.position) {
+          setTimeout(() => {
             chrome.tabs.sendMessage(tab.id, {
               action: 'scrollToNote',
               position: note.position
-            })
-          }, 1500)
+            }).catch(() => {
+              // Message might fail if content script isn't ready, that's okay
+            });
+          }, 1500);
         }
+        
+        // For highlights with position, scroll to them
+        if (note && noteType === 'highlight' && note.position) {
+          console.log('Sending scrollToHighlight for highlight:', note.id, note.position);
+          // Wait for page to load and content script to be ready
+          const scrollToHighlight = async () => {
+            try {
+              await chrome.tabs.sendMessage(tab.id, {
+                action: 'scrollToHighlight',
+                position: note.position
+              });
+              console.log('Scroll message sent successfully');
+            } catch (error) {
+              console.error('Error sending scroll message:', error);
+              // Retry if content script isn't ready yet
+              if (error.message.includes('Could not establish connection')) {
+                setTimeout(scrollToHighlight, 500);
+              }
+            }
+          };
+          setTimeout(scrollToHighlight, 1500);
+        }
+        
       }
     });
   });

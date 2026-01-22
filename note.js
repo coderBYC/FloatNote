@@ -753,8 +753,8 @@ async function switchToEditMode(clonedTextInput) {
   noteDiv._viewStatus = false;
 
   const headerOptionsHeight = noteData.headerOptionsHeight || 0;
-  const noteDivLeft = rect.left - 6;
-  const noteDivTop = rect.top - 6 - headerOptionsHeight;
+  const noteDivLeft = window.scrollX + rect.left - 6;
+  const noteDivTop = window.scrollY + rect.top - 6 - headerOptionsHeight;
   const noteDivWidth = rect.width + 12;
   const noteDivHeight = rect.height + 10 + headerOptionsHeight;
 
